@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Api\Public\Accounts;
 
 use App\Http\Handlers\Requests\RegisterRequest;
 use App\Models\User;
