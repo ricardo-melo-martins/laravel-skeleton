@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+// Auth
+Route::middleware([])->group(function () {
+    Route::post('/auth/register', [RegisterController::class, 'register'])->name('auth.register');
+
 });
