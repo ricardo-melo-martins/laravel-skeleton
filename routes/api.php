@@ -1,10 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+// Public
 use App\Http\Controllers\Api\Public\Auth\LoginController;
 use App\Http\Controllers\Api\Public\Accounts\RegisterController;
 
+// Private Auth
 use App\Http\Controllers\Api\Auth\LogoutController;
+
+// Private Apps
+use App\Http\Controllers\Api\Tasks\TasksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +33,10 @@ Route::middleware([])->group(function () {
 // Private Auth
 Route::middleware([])->group(function () {
     Route::post('/auth/logout', [LogoutController::class, 'logout'])->name('auth.logout');
-    
+    // TODO: auth/me, pass recovery
+});
+
+// Private Apps
+Route::middleware([])->group(function () {
+    Route::resource('tasks', TasksController::class);
 });
