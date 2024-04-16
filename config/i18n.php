@@ -23,6 +23,11 @@ return [
         'AUTH_FAILED' => 'Solicitação de autenticação falhou',
         // Register
         'USER_CREATED' => 'Usuário criado',
-        'USER_LOGOUT_SUCCESS' => 'Terminou a sessão com sucesso'
+        'USER_LOGOUT_SUCCESS' => 'Terminou a sessão com sucesso',
+        // Task
+        'TASK_CREATE_SUCCESS' => 'Tarefa criada',
+        'TASK_UPDATE_SUCCESS' =>'Tarefa atualizada',
+        'TASK_DELETE_SUCCESS' =>'Tarefa excluida',
+        'TASK_CREATE_FAILED' => 'Falha ao criar a tarefa'
     ]
 ];

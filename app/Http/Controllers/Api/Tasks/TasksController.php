@@ -6,11 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Api\Tasks\Services\TasksService;
 use App\Http\Controllers\Controller;
-use App\Models\Task;
 
 class TasksController extends Controller
 {
-
     private $taskService;
 
     public function __construct(TasksService $taskService)
@@ -32,7 +30,7 @@ class TasksController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Tarefa criada!',
+            'message' => config('i18n.messages.TASK_CREATE_SUCCESS'),
             'task'=> $response
         ]);
     }
@@ -45,8 +43,9 @@ class TasksController extends Controller
     public function update(Request $request, $id)
     {
         $response = $this->taskService->updateTaskById($id, $request->all());
+        
         return response()->json([
-            'message' => 'Tarefa atualizada!',
+            'message' => config('i18n.messages.TASK_UPDATE_SUCCESS'),
             'task'=> $response
         ]);
     }
@@ -56,7 +55,7 @@ class TasksController extends Controller
         $this->taskService->deleteTaskById($id);
         
         return response()->json([
-            'message' => 'Tarefa excluída!'
+            'message' => config('i18n.messages.TASK_DELETE_SUCCESS')
         ]);
         //return response()->noContent();
     }

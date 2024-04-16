@@ -1,22 +1,23 @@
 <?php
 namespace App\Http\Controllers\Api\Tasks\Services;
 
+use App\Http\Controllers\Api\Auth\Services\AuthService;
+use App\Http\Controllers\Api\Tasks\Exceptions\TaskNotCreateException;
 use App\Models\Task;
 
 class TasksService
 {
-    private $authenticateUser;
+    private $authService;
 
-    public function __construct() {
-        $this->authenticateUser = auth()->user();
+    public function __construct(AuthService $authService) {
+        $this->authService = $authService;
     }
 
     public function fetchAll()
     {
-            $response = $this->authenticateUser->tasks;
+        $response = $this->authService->user()->tasks;
 
-            return $response;     
-        
+        return $response;        
     }
 
     public function findOneById(int $id)
@@ -26,12 +27,15 @@ class TasksService
 
     public function createTask(array $data)
     {
-        $user = auth()->user();
-        
-        $taskCreated = Task::create($data);
-        $user->tasks()->attach($taskCreated->id); // Associa a tarefa ao usuário
+        try {
+            $taskCreated = Task::create($data);
+            
+            $this->authService->user()->tasks()->attach($taskCreated->id);
 
-        return $taskCreated;    
+            return $taskCreated;
+        } catch (\Throwable $th) {
+            throw new TaskNotCreateException($th->getMessage());
+        }
     }
 
     public function updateTask(Task $task, array $data)
@@ -41,10 +45,10 @@ class TasksService
 
     public function updateTaskById(int $id, array $data)
     {
-        $user = auth()->user();
         $task = Task::findOrFail($id);
         $taskUpdated = $task->update($data);
-        $user->tasks()->syncWithoutDetaching([$task->id]); // Associa a tarefa ao usuário
+
+        $this->authService->user()->syncWithoutDetaching([$task->id]);
     
         return $taskUpdated;
     }    
@@ -56,13 +60,11 @@ class TasksService
 
     public function deleteTaskById($id){
         
-        $user = auth()->user();
-        
         $task = Task::findOrFail($id);
         
         $deleteTask = $task->delete();
 
-        $user->tasks()->detach($task->id); // Remove a associação da tarefa com o usuário
+        $this->authService->user()->detach($task->id);
 
         return $deleteTask;
     }
