@@ -14,7 +14,7 @@ class LogoutController extends Controller
     {
         Auth::logout();
         
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => config('i18n.messages.USER_LOGOUT_SUCCESS')]);
     }
 
 }

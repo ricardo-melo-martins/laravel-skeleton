@@ -14,9 +14,9 @@ class RegisterController extends Controller
         $data = $request->validated();
 
         $user = User::create($data);
-
+        
         $result = [
-            'message' => 'Usuário criado com sucesso',
+            'message' => config('i18n.messages.USER_CREATED'),
             'usuario' => $user
         ];
 

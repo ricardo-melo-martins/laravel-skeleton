@@ -2,6 +2,7 @@
 
 namespace App\Http\Handlers\Requests;
 
+use App\I18n\ApiMessages;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,21 +26,23 @@ class RegisterRequest extends FormRequest
 
     public function messages()
     {
+        $_ = config('i18n.messages');
+
         return [
-            'username.required' => 'Username is required',
-            'username.unique' => 'Username is already taken',
-            'username.max' => 'Username is too long',
-            'first_name.required' => 'First name is required',
-            'first_name.max' => 'First name is too long',
-            'last_name.required' => 'Last name is required',
-            'last_name.max' => 'Last name is too long',
-            'email.required' => 'Email is required',
-            'email.unique' => 'Email is already taken',
-            'email.max' => 'Email is too long',
-            'password.required' => 'Password is required',
-            'password.confirmed' => 'Passwords do not match',
-            'password.min' => 'Password is too short',
-            'password.max' => 'Password is too long'
+            'username.required' => $_['USERNAME_REQUIRED'],
+            'username.unique' => $_['USERNAME_UNIQUE'],
+            'username.max' => $_['USERNAME_MAX'],
+            'first_name.required' => $_['FIRST_NAME_REQUIRED'],
+            'first_name.max' => $_['FIRST_NAME_MAX'],
+            'last_name.required' => $_['LAST_NAME_REQUIRED'],
+            'last_name.max' => $_['LAST_NAME_MAX'],
+            'email.required' => $_['EMAIL_REQUIRED'],
+            'email.unique' => $_['EMAIL_UNIQUE'],
+            'email.max' => $_['EMAIL_MAX'],
+            'password.required' => $_['PASSWORD_REQUIRED'],
+            'password.confirmed' => $_['PASSWORD_CONFIRMED'],
+            'password.min' => $_['PASSWORD_MIN'],
+            'password.max' => $_['PASSWORD_MAX']
         ];
     }
 }

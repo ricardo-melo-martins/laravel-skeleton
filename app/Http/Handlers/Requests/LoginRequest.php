@@ -23,12 +23,14 @@ class LoginRequest extends FormRequest
 
     public function messages(): array
     {
+        $_ = config('i18n.messages');
+
         return [
-            'email.required' => 'Email is required',
-            'email.email' => 'Email is invalid',
-            'email.exists' => 'Email is not registered',
-            'password.required' => 'Password is required',
-            'device_name.required' => 'Device name is required'
+            'email.required' => $_['EMAIL_REQUIRED'],
+            'email.email' => $_['EMAIL_INVALID'],
+            'email.exists' => $_['EMAIL_NOTEXISTS'],
+            'password.required' => $_['PASSWORD_REQUIRED'],
+            'device_name.required' => $_['DEVICE_REQUIRED']
         ];
     }
 }
