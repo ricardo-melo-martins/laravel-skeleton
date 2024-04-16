@@ -23,18 +23,19 @@ class LoginController extends Controller
                 'email' => [config('i18n.messages.AUTH_FAILED')]
             ]);
         }
-        
-        $deviceInfo = $request->header('User-Agent', 'Unknown');
 
-        $tokenResult = $user->createToken($deviceInfo);
+        $tokenBearer = auth()->login($user, $request['password']);
 
-        $tokenText = $tokenResult->plainTextToken;
+        // TODO: adicionar o dispositivo
+        // $deviceInfo = $request->header('User-Agent', 'Unknown');
+        // $tokenResult = $user->createToken($deviceInfo);
+        // $tokenText = $tokenResult->plainTextToken;
 
         $expires_at = Carbon::now()->addWeeks(1);
         
         $dataResponse = (object)[
             'user' => $user,
-            'token' => $tokenText,
+            'token' => $tokenBearer,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse($expires_at)->toDateTimeString(),
         ];

@@ -24,19 +24,19 @@ use App\Http\Controllers\Api\Tasks\TasksController;
 */
 
 // Public endpoints
-Route::middleware([])->group(function () {
+Route::withoutMiddleware([])->group(function () {
     Route::post('/auth/register', [RegisterController::class, 'register'])->name('auth.register');
     Route::post('/auth/login', [LoginController::class, 'login'])->name('auth.login');
     
 });
 
 // Private Auth
-Route::middleware([])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::post('/auth/logout', [LogoutController::class, 'logout'])->name('auth.logout');
     // TODO: auth/me, pass recovery
 });
 
 // Private Apps
-Route::middleware([])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::resource('tasks', TasksController::class);
 });
