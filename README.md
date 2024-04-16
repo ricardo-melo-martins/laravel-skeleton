@@ -89,3 +89,9 @@ php artisan jwt:secret
 JWT_SECRET=<<get your hash>>
 
 ```
+
+
+## License
+Yes ... its free here.
+
+with fun and ❤️ por Ricardo Melo Martins.
