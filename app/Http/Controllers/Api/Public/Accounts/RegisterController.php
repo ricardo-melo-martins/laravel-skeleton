@@ -14,11 +14,12 @@ class RegisterController extends Controller
         $data = $request->validated();
 
         $user = User::create($data);
-        
-        $result = [
-            'message' => config('i18n.messages.USER_CREATED'),
-            'usuario' => $user
-        ];
+
+        $result = ['message' => config('i18n.messages.USER_CREATED')];
+
+        if(config('app.debug')){
+            $result['debug'] = $user;
+        }
 
         return response()->json($result, 201);
     }
