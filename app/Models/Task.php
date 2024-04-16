@@ -24,4 +24,8 @@ class Task extends Model
         'finished_at' => 'datetime',
     ];
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_x_tasks');
+    }
 }
