@@ -48,8 +48,8 @@ class TasksService
     {
         $task = Task::findOrFail($id);
         $taskUpdated = $task->update($data);
-
-        $this->authService->user()->syncWithoutDetaching([$task->id]);
+        
+        // TODO: $this->authService->user()->syncWithoutDetaching([$task->id]);
     
         return $taskUpdated;
     }    
@@ -65,7 +65,7 @@ class TasksService
         
         $deleteTask = $task->delete();
 
-        $this->authService->user()->detach($task->id);
+        // TODO: $this->authService->user()->detach($task->id);
 
         return $deleteTask;
     }
