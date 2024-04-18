@@ -16,7 +16,8 @@ class Task extends Model
         'description',
         "delivery_date",
         "finished",
-        "finished_at"
+        "finished_at",
+        "status"
     ];
 
     protected $casts = [

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 120);
             $table->string('description', 254);
             $table->timestamp('delivery_date')->nullable();
-            $table->boolean('finished')->default(false);
+            $table->string('status', 120)->default('indefinido');
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();
         });

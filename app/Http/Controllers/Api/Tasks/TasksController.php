@@ -27,6 +27,7 @@ class TasksController extends Controller
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'delivery_date' => $request->input('delivery_date'),
+            'status' => $request->input('status'),
         ]);
 
         return response()->json([
