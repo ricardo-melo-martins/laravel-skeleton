@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Tasks\Services;
 use App\Http\Controllers\Api\Auth\Services\AuthService;
 use App\Http\Controllers\Api\Tasks\Exceptions\TaskNotCreateException;
 use App\Models\Task;
+use Carbon\Carbon;
 
 class TasksService
 {
@@ -67,5 +68,10 @@ class TasksService
         $this->authService->user()->detach($task->id);
 
         return $deleteTask;
+    }
+
+    public function finishedTaskById(int $id)
+    {
+        return $this->updateTaskById($id, ['finished_at'=> Carbon::now()->timestamp]);
     }
 }
