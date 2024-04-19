@@ -28,6 +28,8 @@ class RegisterController extends Controller
             $result['debug'] = $user;
         }
 
+        $this->guard()->login($user);
+
         return response()->json($result, 201);
     }
 }
