@@ -72,7 +72,7 @@ Connection verify example...
 
 php artisan migrate --pretend 
 
-if connection ok run command
+# if connection ok run command
 
 php artisan migrate
 
@@ -82,6 +82,17 @@ Migrations Results
 
 ![alt text](docs/images/migration-result.png)
 
+
+
+### Seed data
+
+Populate database
+
+```bash
+
+php artisan db:seed 
+
+```
 
 ### JWT
 
@@ -101,6 +112,25 @@ JWT_SECRET=<<get your hash>>
 
 
 ## Testing
+
+Change Environments 
+
+```
+# enable populate database using db:seed
+TESTS_ENABLED=true
+
+# enable db:seed fake data (factory) 
+TESTS_SEED_DATA_FAKE=true
+
+# change to validate
+TESTS_USER_USERNAME=admin.test
+TESTS_USER_EMAIL=email@tests.com
+TESTS_USER_PASSWORD=YourP@ssw0rd!
+
+```
+
+
+
 
 ![alt text](docs/images/example-request.png)
 
