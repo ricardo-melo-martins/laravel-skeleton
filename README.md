@@ -6,14 +6,17 @@ Laravel 9.x skeleton for fun development
 
 - JWT using with PHPOpenSourceSaver
 - Todo/Task List Crud example
+- Cache with Redis
 
 ## Requirements
 
 - PHP > 7.4
 - Composer 2.x
-- Database (Mysql, Postgres) 
+- Database (Mysql, Postgres)
+- Redis (Optional)
 - Docker > 18.06 (Optional)
-    - For testing I using https://github.com/ricardo-melo-martins/docker
+    - For testing Database and Redis
+      - https://github.com/ricardo-melo-martins/docker
     
 
 ## Install
