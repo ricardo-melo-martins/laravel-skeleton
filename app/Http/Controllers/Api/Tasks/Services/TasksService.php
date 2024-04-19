@@ -5,6 +5,9 @@ use App\Http\Controllers\Api\Auth\Services\AuthService;
 use App\Http\Controllers\Api\Tasks\Exceptions\TaskNotCreateException;
 use App\Models\Task;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
 class TasksService
 {
@@ -16,9 +19,11 @@ class TasksService
 
     public function fetchAll()
     {
-        $response = $this->authService->user()->tasks;
+        $response = Cache::remember(Task::CACHE_TOKEN_LIST, now()->addMinutes(TASK::CACHE_TOKEN_LIST_MINUTES), function () {
+            return $this->authService->user()->tasks;
+        });
 
-        return $response;        
+        return $response;
     }
 
     public function findOneById(int $id)
@@ -28,9 +33,11 @@ class TasksService
 
     public function createTask(array $data)
     {
+
+
         try {
             $taskCreated = Task::create($data);
-            
+
             $this->authService->user()->tasks()->attach($taskCreated->id);
 
             return $taskCreated;
@@ -48,11 +55,11 @@ class TasksService
     {
         $task = Task::findOrFail($id);
         $taskUpdated = $task->update($data);
-        
+
         // TODO: $this->authService->user()->syncWithoutDetaching([$task->id]);
-    
+
         return $taskUpdated;
-    }    
+    }
 
     public function deleteTask(Task $task)
     {
@@ -60,9 +67,9 @@ class TasksService
     }
 
     public function deleteTaskById($id){
-        
+
         $task = Task::findOrFail($id);
-        
+
         $deleteTask = $task->delete();
 
         // TODO: $this->authService->user()->detach($task->id);

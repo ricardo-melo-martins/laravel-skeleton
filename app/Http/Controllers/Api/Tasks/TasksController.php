@@ -15,7 +15,7 @@ class TasksController extends Controller
     {
         $this->taskService = $taskService;
     }
-    
+
     public function index()
     {
         return $this->taskService->fetchAll();
@@ -44,7 +44,7 @@ class TasksController extends Controller
     public function update(Request $request, $id)
     {
         $response = $this->taskService->updateTaskById($id, $request->all());
-        
+
         return response()->json([
             'message' => config('i18n.messages.TASK_UPDATE_SUCCESS'),
             'task'=> $response
@@ -54,7 +54,7 @@ class TasksController extends Controller
     public function destroy($id)
     {
         $this->taskService->deleteTaskById($id);
-        
+
         return response()->json([
             'message' => config('i18n.messages.TASK_DELETE_SUCCESS')
         ]);

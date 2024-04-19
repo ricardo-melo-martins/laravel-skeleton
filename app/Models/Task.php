@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Task extends Model
 {
     use HasFactory;
+
+    public const CACHE_TOKEN_LIST_MINUTES = 10;
+    public const CACHE_TOKEN_LIST = "task_list";
 
     protected $table = "tasks";
 
@@ -29,4 +33,17 @@ class Task extends Model
     {
         return $this->belongsToMany(User::class, 'user_x_tasks');
     }
+
+    protected static function booted(){
+        static::creating(function () {
+            Cache::forget(self::CACHE_TOKEN_LIST);
+        });
+
+        static::updating(function ($user) {
+            Cache::forget(self::CACHE_TOKEN_LIST);
+        });
+    }
+
+
+
 }

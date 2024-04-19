@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Public\Accounts;
 
+use App\Events\UserRegistered;
 use App\Http\Handlers\Requests\RegisterRequest;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -21,6 +22,8 @@ class RegisterController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
         ]);
+
+        event(New UserRegistered($user));
 
         $result = ['message' => config('i18n.messages.USER_CREATED')];
 
