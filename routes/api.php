@@ -1,16 +1,16 @@
 <?php
 
+use App\Modules\Authentication\Controllers\LogoutController;
+use App\Modules\Public\Controllers\LoginController;
+use App\Modules\Public\Controllers\RegisterController;
+use App\Modules\Tasks\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 
 // Public
-use App\Http\Controllers\Api\Public\Auth\LoginController;
-use App\Http\Controllers\Api\Public\Accounts\RegisterController;
 
 // Private Auth
-use App\Http\Controllers\Api\Auth\LogoutController;
 
 // Private Apps
-use App\Http\Controllers\Api\Tasks\TasksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +22,13 @@ use App\Http\Controllers\Api\Tasks\TasksController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => []], function () { 
+Route::group(['middleware' => []], function () {
 
     // Public endpoints
     Route::withoutMiddleware([])->group(function () {
         Route::post('/auth/register', [RegisterController::class, 'register'])->name('auth.register');
         Route::post('/auth/login', [LoginController::class, 'login'])->name('auth.login');
-        
+
     });
 
     // Private Auth
