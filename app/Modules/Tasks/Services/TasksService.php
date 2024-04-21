@@ -3,15 +3,17 @@ namespace App\Modules\Tasks\Services;
 
 use App\Modules\Authentication\Services\AuthService;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotCreateException;
+use App\Modules\Tasks\Handlers\Exceptions\TaskNotDeleteException;
+use App\Modules\Tasks\Handlers\Exceptions\TaskNotFoundException;
+use App\Modules\Tasks\Handlers\Exceptions\TaskNotUpdatedException;
 use App\Modules\Tasks\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redis;
+use Throwable;
 
 class TasksService
 {
-    private $authService;
+    private AuthService $authService;
 
     public function __construct(AuthService $authService) {
         $this->authService = $authService;
@@ -19,29 +21,35 @@ class TasksService
 
     public function fetchAll()
     {
-        $response = Cache::remember(Task::CACHE_TOKEN_LIST, now()->addMinutes(TASK::CACHE_TOKEN_LIST_MINUTES), function () {
+        return Cache::remember(Task::CACHE_TOKEN_LIST, now()->addMinutes(TASK::CACHE_TOKEN_LIST_MINUTES), function () {
             return $this->authService->user()->tasks;
         });
-
-        return $response;
     }
 
+    /**
+     * @throws TaskNotFoundException
+     */
     public function findOneById(int $id)
     {
-        return Task::findOrFail($id);
+
+        $response = $this->authService->user()->tasks()->find($id);
+
+        if (!$response) {
+            throw new TaskNotFoundException();
+        }
+
+        return $response;
+
     }
 
     public function createTask(array $data)
     {
-
-
         try {
             $taskCreated = Task::create($data);
-
             $this->authService->user()->tasks()->attach($taskCreated->id);
 
             return $taskCreated;
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             throw new TaskNotCreateException($th->getMessage());
         }
     }
@@ -51,30 +59,42 @@ class TasksService
         return $this->updateTaskById($task->id, $data);
     }
 
+    /**
+     * @throws TaskNotUpdatedException
+     */
     public function updateTaskById(int $id, array $data)
     {
-        $task = Task::findOrFail($id);
-        $taskUpdated = $task->update($data);
+        try {
+            $task = $this->findOneById($id);
+            return $task->update($data);
 
-        // TODO: $this->authService->user()->syncWithoutDetaching([$task->id]);
-
-        return $taskUpdated;
+        } catch (Throwable $th) {
+            throw new TaskNotUpdatedException($th->getMessage());
+        }
     }
 
+    /**
+     * @throws TaskNotDeleteException
+     */
     public function deleteTask(Task $task)
     {
+
         return $this->deleteTaskById($task->id);
     }
 
-    public function deleteTaskById($id){
+    /**
+     * @throws TaskNotDeleteException
+     */
+    public function deleteTaskById(int $id){
 
-        $task = Task::findOrFail($id);
+        try {
+            $task = $this->findOneById($id);
+            return $task->delete();
 
-        $deleteTask = $task->delete();
+        } catch (Throwable $th) {
+            throw new TaskNotDeleteException($th->getMessage());
+        }
 
-        // TODO: $this->authService->user()->detach($task->id);
-
-        return $deleteTask;
     }
 
     public function finishedTaskById(int $id)

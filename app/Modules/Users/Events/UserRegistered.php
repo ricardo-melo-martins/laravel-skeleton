@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Events;
+namespace App\Modules\Users\Events;
 
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Broadcasting\Channel;
+use App\Modules\Users\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -17,7 +13,7 @@ class UserRegistered
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public User $user;
 
     /**
      * Create a new event instance.
@@ -35,7 +31,7 @@ class UserRegistered
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): \Illuminate\Broadcasting\Channel|PrivateChannel|array
     {
         return new PrivateChannel('channel-name');
     }

@@ -4,6 +4,7 @@ namespace App\Modules\Tasks\Controllers;
 
 use App\Http\Controllers\ControllerAbstract;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotCreateException;
+use App\Modules\Tasks\Handlers\Exceptions\TaskNotFoundException;
 use App\Modules\Tasks\Services\TasksService;
 use Illuminate\Http\Request;
 use \Illuminate\Http\JsonResponse;
@@ -42,7 +43,9 @@ class TasksController extends ControllerAbstract
 
     public function show(int $id): JsonResponse
     {
-        return $this->responseOk($this->taskService->findOneById($id)->toArray());
+        $response = $this->taskService->findOneById($id);
+
+        return $this->responseOk($response->toArray());
     }
 
     public function update(Request $request, $id): JsonResponse

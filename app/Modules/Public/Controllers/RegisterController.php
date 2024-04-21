@@ -4,7 +4,9 @@ namespace App\Modules\Public\Controllers;
 
 use App\Http\Controllers\ControllerAbstract;
 use App\Modules\Authentication\Handlers\Requests\RegisterRequest;
+use App\Modules\Users\Events\UserRegistered;
 use App\Modules\Users\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,6 +23,8 @@ class RegisterController extends ControllerAbstract
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
         ]);
+
+        event(new UserRegistered($user));
 
         return $this->responseCreateOk(['message' => config('i18n.messages.USER_CREATED')]);
     }

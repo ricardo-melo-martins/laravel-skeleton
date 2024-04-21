@@ -28,6 +28,9 @@ return [
         'TASK_CREATE_SUCCESS' => 'Tarefa criada',
         'TASK_UPDATE_SUCCESS' =>'Tarefa atualizada',
         'TASK_DELETE_SUCCESS' =>'Tarefa excluida',
-        'TASK_CREATE_FAILED' => 'Falha ao criar a tarefa'
+        'TASK_CREATE_FAILED' => 'Falha ao criar a tarefa',
+        'TASK_DELETE_FAILED' => 'Falha ao remover a tarefa',
+        'TASK_UPDATE_FAILED' => 'Falha ao atualizar a tarefa',
+        'TASK_NOT_FOUND' => 'Tarefa não encontrada',
     ]
 ];

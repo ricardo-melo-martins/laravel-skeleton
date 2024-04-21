@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Modules\Users\Listeners;
 
-use App\Events\UserRegistered;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Modules\Users\Events\UserRegistered;
 use Illuminate\Support\Facades\Log;
 
 class SendUserRegisteredWelcome
@@ -22,10 +20,10 @@ class SendUserRegisteredWelcome
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param UserRegistered $event
      * @return void
      */
-    public function handle(UserRegistered $event)
+    public function handle(UserRegistered $event): void
     {
         // TODO: implementar envio de email
         Log::debug($event->user);
