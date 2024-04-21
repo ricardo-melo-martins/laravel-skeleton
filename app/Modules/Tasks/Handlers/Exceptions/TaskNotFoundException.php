@@ -4,6 +4,7 @@ namespace App\Modules\Tasks\Handlers\Exceptions;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 
 class TaskNotFoundException extends Exception
 {
@@ -12,7 +13,7 @@ class TaskNotFoundException extends Exception
         return response()->json([
             'errors' => [
                 [
-                    'title' => config('i18n.messages.TASK_NOT_FOUND'),
+                    'title' => Lang::get('tasks.exceptions.task-not-found'),
                     'detail' => $this->getMessage(),
                     'status' => '204'
                 ]

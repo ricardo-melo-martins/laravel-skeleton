@@ -5,6 +5,7 @@ namespace App\Modules\Tasks\Handlers\Exceptions;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 
 class TaskNotUpdatedException extends Exception
 {
@@ -13,7 +14,7 @@ class TaskNotUpdatedException extends Exception
         return response()->json([
             'errors' => [
                 [
-                    'title' => config('i18n.messages.TASK_UPDATE_FAILED'),
+                    'title' => Lang::get('tasks.exceptions.task-not-update'),
                     'detail' => $this->getMessage(),
                     'status' => '204'
                 ]

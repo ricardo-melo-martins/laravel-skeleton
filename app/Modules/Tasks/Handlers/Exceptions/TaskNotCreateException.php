@@ -4,6 +4,7 @@ namespace App\Modules\Tasks\Handlers\Exceptions;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 
 class TaskNotCreateException extends Exception
 {
@@ -12,7 +13,7 @@ class TaskNotCreateException extends Exception
         return response()->json([
             'errors' => [
                 [
-                    'title' => config('i18n.messages.TASK_CREATE_FAILED'),
+                    'title' => Lang::get('tasks.exceptions.task-not-create'),
                     'detail' => $this->getMessage(),
                     'status' => '204'
                 ]

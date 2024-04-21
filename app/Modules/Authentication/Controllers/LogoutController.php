@@ -6,6 +6,7 @@ use App\Http\Controllers\ControllerAbstract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 
 class LogoutController extends ControllerAbstract
 {
@@ -14,7 +15,7 @@ class LogoutController extends ControllerAbstract
     {
         Auth::logout();
 
-        return response()->json(['message' => config('i18n.messages.USER_LOGOUT_SUCCESS')]);
+        return $this->responseOk(Lang::get('auth.logout'));
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Modules\Tasks\Handlers\Exceptions;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 
 class TaskNotDeleteException extends Exception
 {
@@ -12,7 +13,7 @@ class TaskNotDeleteException extends Exception
         return response()->json([
             'errors' => [
                 [
-                    'title' => config('i18n.messages.TASK_DELETE_FAILED'),
+                    'title' => Lang::get('tasks.exceptions.task-not-delete'),
                     'detail' => $this->getMessage(),
                     'status' => '204'
                 ]

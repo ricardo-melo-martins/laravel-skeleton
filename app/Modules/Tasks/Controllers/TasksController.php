@@ -4,10 +4,10 @@ namespace App\Modules\Tasks\Controllers;
 
 use App\Http\Controllers\ControllerAbstract;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotCreateException;
-use App\Modules\Tasks\Handlers\Exceptions\TaskNotFoundException;
 use App\Modules\Tasks\Services\TasksService;
 use Illuminate\Http\Request;
-use \Illuminate\Http\JsonResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Lang;
 
 class TasksController extends ControllerAbstract
 {
@@ -36,7 +36,7 @@ class TasksController extends ControllerAbstract
         ]);
 
         return $this->responseCreateOk([
-            'message' => config('i18n.messages.TASK_CREATE_SUCCESS'),
+            'message' => Lang::get('tasks.created'),
             'task'=> $response
         ]);
     }
@@ -53,7 +53,7 @@ class TasksController extends ControllerAbstract
         $response = $this->taskService->updateTaskById($id, $request->all());
 
         return $this->responseUpdateOk([
-            'message' => config('i18n.messages.TASK_UPDATE_SUCCESS'),
+            'message' => Lang::get('tasks.updated'),
             'debug' => $response
         ]);
     }
@@ -63,7 +63,7 @@ class TasksController extends ControllerAbstract
         $this->taskService->deleteTaskById($id);
 
         return $this->responseDeleteOk([
-            'message' => config('i18n.messages.TASK_DELETE_SUCCESS')
+            'message' => Lang::get('tasks.deleted')
         ]);
     }
 }

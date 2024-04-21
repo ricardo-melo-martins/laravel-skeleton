@@ -9,6 +9,7 @@ use App\Modules\Users\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 
 class RegisterController extends ControllerAbstract
 {
@@ -26,6 +27,6 @@ class RegisterController extends ControllerAbstract
 
         event(new UserRegistered($user));
 
-        return $this->responseCreateOk(['message' => config('i18n.messages.USER_CREATED')]);
+        return $this->responseCreateOk(['message' => Lang::get('users.registered')]);
     }
 }

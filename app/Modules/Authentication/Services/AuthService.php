@@ -6,6 +6,7 @@ use App\Modules\Authentication\Resources\LoginResource;
 use App\Modules\Users\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\ValidationException;
 
 class AuthService
@@ -31,7 +32,7 @@ class AuthService
 
         if (!$user || !Hash::check($password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => [config('i18n.messages.AUTH_FAILED')]
+                'email' => [Lang::get('auth.failed')]
             ]);
         }
 
