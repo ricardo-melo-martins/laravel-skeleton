@@ -1,0 +1,605 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Tasks API",
+        "description": "An API of tasks management",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "operationId": "38e56bf83bebc195596e7769f893ce09",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {}
+                                },
+                                "type": "object",
+                                "example": []
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "meta": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "number",
+                                                    "example": 200
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Successfully logged out"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "meta": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "number",
+                                                    "example": 422
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "error"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Unauthenticated."
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "operationId": "489c1fda3099ac7b58863988ce6795b8",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "user@test.com",
+                                    "password": "YourP@ssw0rd!"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "meta": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "number",
+                                                    "example": 200
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": null
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "number",
+                                                            "example": 2
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "User"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "user@test.com"
+                                                        },
+                                                        "email_verified_at": {
+                                                            "type": "string",
+                                                            "example": null
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "example": "2022-06-28 06:06:17"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "example": "2022-06-28 06:06:17"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "access_token": {
+                                                    "properties": {
+                                                        "token": {
+                                                            "type": "string",
+                                                            "example": "randomtokenasfhajskfhajf398rureuuhfdshk"
+                                                        },
+                                                        "type": {
+                                                            "type": "string",
+                                                            "example": "Bearer"
+                                                        },
+                                                        "expires_in": {
+                                                            "type": "number",
+                                                            "example": 3600
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "meta": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "number",
+                                                    "example": 401
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "error"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Incorrect username or password!"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "operationId": "ae17e52d7e4aaa0ffc3b85edd91f1447",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "John",
+                                    "email": "john@test.com",
+                                    "password": "johnjohn1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "meta": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "number",
+                                                    "example": 200
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": null
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "number",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "john@test.com"
+                                                        },
+                                                        "email_verified_at": {
+                                                            "type": "string",
+                                                            "example": null
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "example": "2022-06-28 06:06:17"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "example": "2022-06-28 06:06:17"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "access_token": {
+                                                    "properties": {
+                                                        "token": {
+                                                            "type": "string",
+                                                            "example": "randomtokenasfhajskfhajf398rureuuhfdshk"
+                                                        },
+                                                        "type": {
+                                                            "type": "string",
+                                                            "example": "Bearer"
+                                                        },
+                                                        "expires_in": {
+                                                            "type": "number",
+                                                            "example": 3600
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "meta": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "number",
+                                                    "example": 422
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "error"
+                                                },
+                                                "message": {
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "example": "The email has already been taken."
+                                                            },
+                                                            "collectionFormat": "multi"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get a list of tasks",
+                "operationId": "SearchTask",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Create one task",
+                "operationId": "CreateTask",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Titulo de minha tarefa aqui",
+                                    "description": "Uma descrição para minha tarefa",
+                                    "password": "pendente"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/api/tasks/{taskId}": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get a one task",
+                "operationId": "GetTaskDetails",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "description": "Task ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Update one task",
+                "operationId": "UpdateTaskDetails",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "description": "Task ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Novo Titulo de minha tarefa aqui",
+                                    "description": "Uma descrição para minha tarefa",
+                                    "password": "indefinido"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Delete a one task",
+                "operationId": "DeleteTaskDetails",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "description": "Task ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "token": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}

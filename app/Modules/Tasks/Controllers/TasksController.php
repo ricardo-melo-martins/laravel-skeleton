@@ -8,6 +8,7 @@ use App\Modules\Tasks\Handlers\Exceptions\TaskNotDeleteException;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotFoundException;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotUpdatedException;
 use App\Modules\Tasks\Handlers\Requests\TaskCreateRequest;
+use App\Modules\Tasks\Handlers\Requests\TaskSearchRequest;
 use App\Modules\Tasks\Services\TasksService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -22,12 +23,59 @@ class TasksController extends ControllerAbstract
         $this->taskService = $taskService;
     }
 
-    public function index(): JsonResponse
+    /**
+     * @OA\Get(
+     *     path="/api/tasks",
+     *     summary="Get a list of tasks",
+     *     tags={"Tasks"},
+     *     operationId="SearchTask",
+     *     @OA\Response(response=200, description="Successful operation"),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
+     */
+    public function index(TaskSearchRequest $request): JsonResponse
     {
+        // dd($request);
         return $this->responseOk($this->taskService->fetchAll()->toArray());
     }
 
     /**
+      @OA\Post (
+     *     path="/api/tasks",
+     *     summary="Create one task",
+     *     tags={"Tasks"},
+     *     operationId="CreateTask",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="name",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="description",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="status",
+     *                          type="string"
+     *                      )
+     *                 ),
+     *                 example={
+     *                     "name":"Titulo de minha tarefa aqui",
+     *                     "description":"Uma descrição para minha tarefa",
+     *                     "password":"pendente"
+     *                }
+     *             )
+     *         )
+     *      ),
+     *     @OA\Response(response=200, description="Successful operation"),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
+     *
      * @throws TaskNotCreateException
      */
     public function store(TaskCreateRequest $request): JsonResponse
@@ -41,6 +89,27 @@ class TasksController extends ControllerAbstract
     }
 
     /**
+     *
+     * @OA\Get(
+     *     path="/api/tasks/{taskId}",
+     *     summary="Get a one task",
+     *     tags={"Tasks"},
+     *     operationId="GetTaskDetails",
+     *     @OA\Parameter(
+     *        description="Task ID",
+     *        in="path",
+     *        name="taskId",
+     *        required=true,
+     *        example="1",
+     *        @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *        )
+     *     ),
+     *     @OA\Response(response=200, description="Successful operation"),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
+     *
      * @throws TaskNotFoundException
      */
     public function show(int $id): JsonResponse
@@ -51,6 +120,53 @@ class TasksController extends ControllerAbstract
     }
 
     /**
+    * @OA\Put (
+     *     path="/api/tasks/{taskId}",
+     *     summary="Update one task",
+     *     tags={"Tasks"},
+     *     operationId="UpdateTaskDetails",
+     *     @OA\Parameter(
+     *          description="Task ID",
+     *          in="path",
+     *          name="taskId",
+     *          required=true,
+     *          example="1",
+     *          @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *          )
+     *       ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="name",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="description",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="status",
+     *                          type="string"
+     *                      )
+     *                 ),
+     *                 example={
+     *                     "name":"Novo Titulo de minha tarefa aqui",
+     *                     "description":"Uma descrição para minha tarefa",
+     *                     "password":"indefinido"
+     *                }
+     *             )
+     *         )
+     *      ),
+     *     @OA\Response(response=200, description="Successful operation"),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
+     *
      * @throws TaskNotUpdatedException
      */
     public function update(Request $request, $id): JsonResponse
@@ -64,6 +180,27 @@ class TasksController extends ControllerAbstract
     }
 
     /**
+     *
+     * @OA\Delete(
+     *     path="/api/tasks/{taskId}",
+     *     summary="Delete a one task",
+     *     tags={"Tasks"},
+     *     operationId="DeleteTaskDetails",
+     *     @OA\Parameter(
+     *        description="Task ID",
+     *        in="path",
+     *        name="taskId",
+     *        required=true,
+     *        example="1",
+     *        @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *        )
+     *     ),
+     *     @OA\Response(response=200, description="Successful operation"),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
+     *
      * @throws TaskNotDeleteException
      */
     public function destroy(int $id): JsonResponse

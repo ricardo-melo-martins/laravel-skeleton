@@ -6,6 +6,10 @@ use App\Modules\Tasks\Enums\TaskStatusEnum;
 use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 
+/**
+ * @method update(array $data)
+ * @method delete()
+ */
 class TaskReadDto extends Data
 {
     public function __construct(

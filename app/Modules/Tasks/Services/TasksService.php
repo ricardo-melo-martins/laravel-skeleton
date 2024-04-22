@@ -10,7 +10,6 @@ use App\Modules\Tasks\Handlers\Exceptions\TaskNotDeleteException;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotFoundException;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotUpdatedException;
 use App\Modules\Tasks\Models\Task;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Throwable;
 
@@ -43,7 +42,7 @@ class TasksService
         return TaskReadDto::from($model);
     }
 
-    public function createTask(mixed $data)
+    public function createTask(mixed $data): TaskReadDto
     {
         try {
             $data = TaskCreateDto::from($data);
@@ -59,6 +58,9 @@ class TasksService
         }
     }
 
+    /**
+     * @throws TaskNotUpdatedException
+     */
     public function updateTask(Task $task, array $data)
     {
         return $this->updateTaskById($task->id, $data);

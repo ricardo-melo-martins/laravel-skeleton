@@ -1,16 +1,26 @@
 # laravel-skeleton
 
-Laravel 9.x skeleton for fun development
+Laravel 9.x skeleton for fun development.
 
 ## Features
 
+- User Register, Login, Logout
 - JWT using with PHPOpenSourceSaver
+- Event-driven on Register
 - Todo/Task List Crud example
-- Cache with Redis
+- Cache with Redis on Tasks Lists
+- Validators on Requests (Controller)
+- Spatie for Dto transactions (Services)
+- OpenApi Documentation with Swagger
+- Modular Structure (Auth, Public, Users and Tasks)
+- Multi-Language configured (pt_BR, en)
+- Centralized common function, abstract class...
 
 ## Requirements
 
-- PHP > 7.4
+- PHP > 8.1
+- Extensions
+  - curl, intl, mbstring, pdo_mysql, gd
 - Composer 2.x
 - Database (Mysql, Postgres)
 - Redis (Optional)
@@ -18,6 +28,11 @@ Laravel 9.x skeleton for fun development
     - For testing Database and Redis
       - https://github.com/ricardo-melo-martins/docker
     
+
+## Endpoints
+
+![alt text](docs/images/open-api-swagger.png)
+
 
 ## Install
 

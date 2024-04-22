@@ -20,6 +20,10 @@ class TaskCreateRequest extends FormRequest
             'name' => ['required'],
             'description' => ['required'],
             'status' => ['required', Rule::enum(TaskStatusEnum::class)],
+            'page' => ['integer'],
+            'limit' => ['integer'],
+            'sort' => ['string'],
+            'direction' => ['string'],
         ];
     }
 
