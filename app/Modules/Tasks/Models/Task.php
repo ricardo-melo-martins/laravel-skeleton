@@ -2,6 +2,7 @@
 
 namespace App\Modules\Tasks\Models;
 
+use App\Modules\Tasks\Enums\TaskStatusEnum;
 use App\Modules\Users\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,7 @@ class Task extends Model
     protected $casts = [
         'delivery_date' => 'datetime',
         'finished_at' => 'datetime',
+        'status' => TaskStatusEnum::class,
     ];
 
     public function users()
@@ -44,7 +46,5 @@ class Task extends Model
             Cache::forget(self::CACHE_TOKEN_LIST);
         });
     }
-
-
 
 }

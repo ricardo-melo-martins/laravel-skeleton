@@ -1,7 +1,10 @@
 <?php
 namespace App\Modules\Tasks\Services;
 
+use App\Commons\Util\DatetimeUtil;
 use App\Modules\Authentication\Services\AuthService;
+use App\Modules\Tasks\Dtos\TaskCreateDto;
+use App\Modules\Tasks\Dtos\TaskReadDto;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotCreateException;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotDeleteException;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotFoundException;
@@ -29,26 +32,28 @@ class TasksService
     /**
      * @throws TaskNotFoundException
      */
-    public function findOneById(int $id)
+    public function findOneById(int $id): TaskReadDto
     {
+        $model = $this->authService->user()->tasks()->find($id);
 
-        $response = $this->authService->user()->tasks()->find($id);
-
-        if (!$response) {
+        if (!$model) {
             throw new TaskNotFoundException();
         }
 
-        return $response;
-
+        return TaskReadDto::from($model);
     }
 
-    public function createTask(array $data)
+    public function createTask(mixed $data)
     {
         try {
-            $taskCreated = Task::create($data);
+            $data = TaskCreateDto::from($data);
+
+            $taskCreated = Task::create($data->toArray());
+
             $this->authService->user()->tasks()->attach($taskCreated->id);
 
-            return $taskCreated;
+            return TaskReadDto::from($taskCreated);
+
         } catch (Throwable $th) {
             throw new TaskNotCreateException($th->getMessage());
         }
@@ -97,8 +102,13 @@ class TasksService
 
     }
 
+    /**
+     * @throws TaskNotUpdatedException
+     */
     public function finishedTaskById(int $id)
     {
-        return $this->updateTaskById($id, ['finished_at'=> Carbon::now()->timestamp]);
+        return $this->updateTaskById($id, [
+            'finished_at'=> DatetimeUtil::nowTimestamp()
+        ]);
     }
 }

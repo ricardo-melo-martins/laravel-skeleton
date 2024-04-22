@@ -4,6 +4,10 @@ namespace App\Modules\Tasks\Controllers;
 
 use App\Http\Controllers\ControllerAbstract;
 use App\Modules\Tasks\Handlers\Exceptions\TaskNotCreateException;
+use App\Modules\Tasks\Handlers\Exceptions\TaskNotDeleteException;
+use App\Modules\Tasks\Handlers\Exceptions\TaskNotFoundException;
+use App\Modules\Tasks\Handlers\Exceptions\TaskNotUpdatedException;
+use App\Modules\Tasks\Handlers\Requests\TaskCreateRequest;
 use App\Modules\Tasks\Services\TasksService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -26,14 +30,9 @@ class TasksController extends ControllerAbstract
     /**
      * @throws TaskNotCreateException
      */
-    public function store(Request $request): JsonResponse
+    public function store(TaskCreateRequest $request): JsonResponse
     {
-        $response = $this->taskService->createTask([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'delivery_date' => $request->input('delivery_date'),
-            'status' => $request->input('status'),
-        ]);
+        $response = $this->taskService->createTask($request->all());
 
         return $this->responseCreateOk([
             'message' => Lang::get('tasks.created'),
@@ -41,13 +40,19 @@ class TasksController extends ControllerAbstract
         ]);
     }
 
+    /**
+     * @throws TaskNotFoundException
+     */
     public function show(int $id): JsonResponse
     {
-        $response = $this->taskService->findOneById($id);
+        $model = $this->taskService->findOneById($id);
 
-        return $this->responseOk($response->toArray());
+        return $this->responseOk($model->toArray());
     }
 
+    /**
+     * @throws TaskNotUpdatedException
+     */
     public function update(Request $request, $id): JsonResponse
     {
         $response = $this->taskService->updateTaskById($id, $request->all());
@@ -58,6 +63,9 @@ class TasksController extends ControllerAbstract
         ]);
     }
 
+    /**
+     * @throws TaskNotDeleteException
+     */
     public function destroy(int $id): JsonResponse
     {
         $this->taskService->deleteTaskById($id);
